@@ -16,5 +16,8 @@
     "url": "https://github.com/tsahom/backend_web/issues"
   },
   "homepage": "https://github.com/tsahom/backend_web#readme",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "pug": "^2.0.4"
+  }
 }
