@@ -4,15 +4,17 @@ const pug = require("pug");
 const uuid = require("uuid");
 
 const app = express();
+app.use(express.json());
 
 const port = 3000;
 const databasename = "cities.json";
 
 const compileCitiesFunction = pug.compileFile('cities.pug',app);
 
-let success = true;
+let success;
 
 app.get('/cities', function (req,res) {
+    success = true;
     fs.access(databasename, fs.constants.F_OK, (err) => {
         success = false;
     });
@@ -38,25 +40,29 @@ app.get('/cities', function (req,res) {
 });
 
 app.post('/city', function (req,res) {
+    success = true;
     fs.access(databasename, fs.constants.F_OK, (err) => {
         success = false;
     });
     if(!success){
         let id = uuid.v4();
-        let city = req.body;
+        let city = req.body.city;
         let new_file = "{\"cities\":[{\"id\":\""+id+"\",\"name\":\""+city+"\"}]}";
         fs.writeFile("cities.json",new_file,(err) =>{
             if(err){
                 console.error(err);
             }
         });
+        res.statusCode = 200;
+        res.setHeader("Content-Type", "text/html");
+        res.end();
     }else {
         fs.readFile(databasename, "utf8", (err, data) => {
             if (err) {
                 console.error(err);
                 return;
             }
-            let city = req.body;
+            let city = req.body.city;
             let cities = data.toString();
             if(cities.split(city).length!==1){
                 res.statusCode = 500;
@@ -64,8 +70,8 @@ app.post('/city', function (req,res) {
                 res.end();
             }else{
                 let id = uuid.v4();
-                let city = req.body;
-                let new_city = ",{\"id\":\""+id+"\",\"name\":\""+city+"}\"}]";
+                let city = req.body.city;
+                let new_city = ",{\"id\":\""+id+"\",\"name\":\""+city+"\"}]";
                 let all_file = cities.split("]");
                 let new_file = all_file[0] + new_city + all_file[1];
                 fs.writeFile("cities.json",new_file,(err) =>{
@@ -91,15 +97,11 @@ app.delete('/city/:id', function (req,res) {
             console.error(err);
             return;
         }
-        let all_file = data.toString();
+        console.log(id);
         let reg = new RegExp("{\""+id+"\",.*}");
-        if(reg.test(all_file)){
-            reg[Symbol.replace]()
-        }
+
     });
 
-    let id = uuid.v4();
-    let city = req.body;
     let new_city = ",{\"id\":\""+id+"\",\"name\":\""+city+"}\"}]";
     let all_file = cities.split("]");
     let new_file = all_file[0] + new_city + all_file[1];

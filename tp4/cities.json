@@ -1,6 +1,1 @@
-{
-  "cities": [
-    { "id": "042ffd34-d989-321c-ad06", "name": "Toulouse"},
-    { "id": "823ffd34-e789-321c-gf88", "name": "Albi"}
-  ]
-}
+{"cities":[{"id":"fdbda27c-5f08-40b6-b4c1-80cb77a9a269","name":"Paris"},{"id":"5f318951-2dac-437c-86ab-5df9b3904f0a","name":"Toulouse"},{"id":"98eaee56-9c56-4851-84c4-f59d66c83674","name":"Blagnac"},{"id":"02200d14-e4cf-4744-a908-ce21418988c5","name":"Colomiers"},{"id":"e375a7ab-6754-4bc6-a5a1-bee68d3aaa16","name":"Tournefeuille"}]}
